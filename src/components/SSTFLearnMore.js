@@ -1,85 +1,82 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const FCFSLearnMore = () => {
+const SSTFLearnMore = () => {
   return (
     <>
       <section className="text-gray-400 bg-gray-900 body-font">
         <div className="flex flex-col text-center w-full pt-8 -mb-6">
           <h1 className="sm:text-3xl text-2xl font-medium title-font text-white">
-            First Come First Serve Algorithm
+            Shortest Seek Time First Algorithm
           </h1>
         </div>
         <div className="container px-5 py-24 mx-auto flex flex-wrap">
           <div className="lg:w-1/2 w-full mb-10 lg:mb-0 rounded-lg overflow-hidden">
-            <img alt="feature" className="" src="fcfs_image.jpg" />
+            <img alt="feature" className="" src="sstf_image.png" />
           </div>
           <div className="flex flex-col flex-wrap lg:py-6 -mb-10 lg:w-1/2 lg:pl-12 lg:text-left text-center">
             <div className="flex flex-col mb-10 lg:items-start items-center">
               <div className="flex-grow">
                 <h2 className="text-white text-lg title-font font-medium mb-3">
-                  What is First Come First Serve Method?
+                  What is Shortest Seek Time First Method?
                 </h2>
                 <p className="leading-relaxed text-base">
-                  First Come First Serve (FCFS) is an operating system
-                  scheduling algorithm that automatically executes queued
-                  requests and processes in order of their arrival. It is the
-                  easiest and simplest CPU scheduling algorithm. In this type of
-                  algorithm, processes which requests the CPU first get the CPU
-                  allocation first. This is managed with a FIFO queue. The full
-                  form of FCFS is First Come First Serve.
+                  SSTF is abbreviation of Shortest Seek Time First (SSTF) which
+                  is a disk scheduling algorithm. It selects the request which
+                  is closest to the current head position before moving the head
+                  away to service other requests. This is done by selecting the
+                  request which has the least seek time from the current head
+                  position.
                 </p>
               </div>
             </div>
             <div className="flex flex-col mb-10 lg:items-start items-center">
               <div className="flex-grow">
                 <h2 className="text-white text-lg title-font font-medium mb-3">
-                  Characteristics of FCFS method
+                  Characteristics of SSTF method
                 </h2>
                 <p className="leading-relaxed text-base">
-                  - It supports non-preemptive and pre-emptive scheduling
-                  algorithm. <br /> - Jobs are always executed on a first-come,
-                  first-serve basis.
-                  <br /> - It is easy to implement and use.
-                  <br /> - This method is poor in performance, and the general
-                  wait time is quite high.
+                  - The SSTF algorithm selects the request having the minimum
+                  distance from the current head position. <br /> - Arrange all
+                  the I/O requests in ascending order.
+                  <br /> - The head will find the nearest request (which has a
+                  minimum distance from the head) present in any direction (left
+                  or right) and will move to that request.
+                  <br /> - Then the head will move another nearest request which
+                  has not been serviced present in any direction.
                 </p>
               </div>
             </div>
             <div className="flex flex-col mb-10 lg:items-start items-center">
               <div className="flex-grow">
                 <h2 className="text-white text-lg title-font font-medium mb-3">
-                  Advantages of FCFS
+                  Advantages of SSTF
                 </h2>
                 <p className="leading-relaxed text-base">
-                  - The simplest form of a CPU scheduling algorithm <br />
-                  - Easy to program <br />- First come first served
+                  - Better performance than FCFS scheduling algorithm. <br />
+                  - It provides better throughput. <br /> - This algorithm is
+                  used in Batch Processing system where throughput is more
+                  important. <br /> - It has less average response and waiting time.
                 </p>
               </div>
             </div>
             <div className="flex flex-col mb-2 lg:items-start items-center">
               <div className="flex-grow">
                 <h2 className="text-white text-lg title-font font-medium mb-3">
-                  Disadvantages of FCFS
+                  Disadvantages of SSTF
                 </h2>
                 <p className="leading-relaxed text-base">
-                  - It is a Non-Preemptive CPU scheduling algorithm, so after
-                  the process has been allocated to the CPU, it will never
-                  release the CPU until it finishes executing.
+                  - Starvation is possible for some requests as it favours easy to reach request and ignores the far away processes.
                   <br />
-                  - The Average Waiting Time is high.
+                  - Their is lack of predictability because of high variance of response time.
                   <br />
-                  - Short processes that are at the back of the queue have to
-                  wait for the long process at the front to finish.
-                  <br />
-                  - Not an ideal technique for time-sharing systems.
-                  <br />- Because of its simplicity, FCFS is not very efficient.
+                  - Switching direction slows things down.
                 </p>
               </div>
             </div>
           </div>
         </div>
-        <Link to="/fcfscalculate">
+        <Link to="/sstfcalculate">
         <button class="flex mx-auto text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg">Calculate</button>
         </Link>
       </section>
@@ -87,4 +84,4 @@ const FCFSLearnMore = () => {
   );
 };
 
-export default FCFSLearnMore;
+export default SSTFLearnMore;
