@@ -9,6 +9,7 @@ import SSTFCalculate from "./components/SSTFCalculate";
 import SSTFLearnMore from "./components/SSTFLearnMore";
 
 function App() {
+
   return (
     <>
       <Navbar />
@@ -22,8 +23,8 @@ function App() {
           <Route exact path="/sstflearnmore" element={<SSTFLearnMore />} />
         </Routes>
       </BrowserRouter>
-
-      <Footer/>
+    
+      <Footer />
     </>
   );
 }
