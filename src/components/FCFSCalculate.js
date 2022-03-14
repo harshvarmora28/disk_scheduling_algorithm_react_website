@@ -1,83 +1,64 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LineChart from "./LineChart";
-import { UserData } from "../Data";
+// import { UserData } from "../Data";
 
 const FCFSCalculate = () => {
 
-  const [head, setHead] = useState("");
   const [result, setResult] = useState("");
   const [count, setCount] = useState("");
-  const [finArray, setFinArray] = useState("");
+  const [finArray, setFinArray] = useState([]);
 
   var arry;
-  var arr = [ 176, 79, 34, 60,
-    92, 11, 41, 114 ];
-    console.log(arr)
+  // var arr = [176, 229, 564, 60, 92, 11, 41, 114];
+    // console.log(arr)
+    console.log(finArray)
+    function returnFinArray(){
+      return finArray
+    }
+
   // Graph
 
-  // const PlotGraph = () => {
-  //     const [userData, setUserData] = useState({
-  //     labels: UserData.map((data) => data.year),
-  //     datasets: [
-  //       {
-  //         label: "Users Gained",
-  //         data: UserData.map((data) => data.userGain),
-  //         backgroundColor: "rgba(40, 196, 93, 0.07)",
-  //         borderColor: "white",
-  //         borderWidth: 1,
-  //         pointBorderWidth: 2.4,
-  //         pointBackgroundColor: "tranparent",
-  //         pointBorderColor: "#22c55e",
-  //         fill: true,
-  //       },
-        
-  //     ],
-  //   });
-  // }
-  const [userData, setUserData] = useState({
-    labels: UserData.map((data) => data.year),
-    datasets: [
-      {
-        label: "Users Gained",
-        data: finArray,
-        backgroundColor: "rgba(40, 196, 93, 0.07)",
-        borderColor: "white",
-        borderWidth: 1,
-        pointBorderWidth: 2.4,
-        pointBackgroundColor: "tranparent",
-        pointBorderColor: "#22c55e",
-        fill: true,
-      },
-      
-    ],
-  });
+    // const [userData, setUserData] = useState({
+    //   labels: UserData.map((data) => data.id),
+    //   datasets: [
+    //     {
+    //       label: "Seek Time",
+    //       data: arr,
+          // backgroundColor: "rgba(40, 196, 93, 0.07)",
+          // borderColor: "white",
+          // borderWidth: 1,
+          // pointBorderWidth: 2.4,
+          // pointBackgroundColor: "tranparent",
+          // pointBorderColor: "#22c55e",
+          // fill: true,
+    //     },
+    //   ],
+    // },
+    // );
 
-  
 
-  const alertName = (e) => {
+  const alertName = async (e) => {
     // console.log(head);
 
     var h_pos = document.getElementById("head").value;
 
-    console.log(h_pos);
+    // console.log(h_pos);
 
     var ftrack = document.getElementById("track").value;
     // console.log(ftrack);
 
     arry = ftrack.split(", ");
-    console.log(arry);
 
-    // var iterator = arry.values();
- 
-    // Here all the elements of the array is being printed.
-    // for (var elements of iterator) {
-    //   console.log(elements);
-    // }
+    var finArray = [];
+    
+    finArray = arry.map(Number)
+    setFinArray(finArray)
 
     let length = arry.length;
 
     FCFS(arry, h_pos, length);
     e.preventDefault();
+
   };
 
   function FCFS(arr, head_pos, size) {
@@ -103,13 +84,6 @@ const FCFSCalculate = () => {
     }
     setResult(result);
 
-
-    var finArray = "";
-
-    for (var i = 0; i < size; i++) {
-      finArray += arr[i] + " ";
-    }
-    setFinArray(finArray);
   }
 
   return (
@@ -139,7 +113,7 @@ const FCFSCalculate = () => {
               </div>
               <div className="relative mb-4">
                 <label
-                  htmlFor="email"
+                  htmlFor="head"
                   className="leading-7 text-sm text-gray-400"
                 >
                   Head Position
@@ -174,7 +148,8 @@ const FCFSCalculate = () => {
                 Seek Time: {count}
               </p>
               {/* <div style={{width: 300}}> */}
-              <LineChart chartData={userData} />
+              {/* <LineChart chartData={userData} /> */}
+              <LineChart returnFinArray={returnFinArray}/>
               {/* </div> */}
             </div>
           </div>
