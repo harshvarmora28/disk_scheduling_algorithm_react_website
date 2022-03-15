@@ -43,12 +43,23 @@ const LineChart = ({returnFinArray}) => {
         options={{
           maintainAspectRatio: false,
           scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              }
-            }]
-          }
+            
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            },
+                  scaleLabel: {
+                        display: true,
+                        labelString: "Seek Sequence"
+                    }
+                }],
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Seek Count (upto Particular Point)",
+                    }
+                }]
+            }
         }}
       />
     </div>
