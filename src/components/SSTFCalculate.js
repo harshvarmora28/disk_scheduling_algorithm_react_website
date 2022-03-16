@@ -85,6 +85,7 @@ const SSTFCalculate = () => {
 			// set the visiting element status
 			auxiliary[i][1] = 0;
 		}
+    // Time Complexity = n^2
 		for (i = 0; i < size; i++)
 		{
       
@@ -130,6 +131,7 @@ const SSTFCalculate = () => {
 
     var result = "";
 
+    // Time Complexity = n
     for (var i = 0; i < size+1; i++) {
       if(skeek[i] < 0){
         alert("Enter positive value only!")
