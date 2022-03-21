@@ -1,49 +1,28 @@
-
 import React, { useState } from "react";
-import SSTFChart from "./SSTFChart";
+import SCANChart from "./SCANChart";
 
-const SSTFCalculate = () => {
+const SCANCalculate = () => {
   const [result, setResult] = useState("");
   const [count, setCount] = useState("");
   const [finArray, setFinArray] = useState([]);
+  const [direction, setDirection] = useState("");
 
   var arry;
   // var arr = [176, 229, 564, 60, 92, 11, 41, 114];
   // console.log(arr)
   console.log(finArray);
-  function returnFinArray2() {
+  function returnFinArray3() {
     return finArray;
   }
-
-  // Graph
-
-  // const [userData, setUserData] = useState({
-  //   labels: UserData.map((data) => data.id),
-  //   datasets: [
-  //     {
-  //       label: "Seek Time",
-  //       data: arr,
-  // backgroundColor: "rgba(40, 196, 93, 0.07)",
-  // borderColor: "white",
-  // borderWidth: 1,
-  // pointBorderWidth: 2.4,
-  // pointBackgroundColor: "tranparent",
-  // pointBorderColor: "#22c55e",
-  // fill: true,
-  //     },
-  //   ],
-  // },
-  // );
 
   const alertName = async (e) => {
     // console.log(head);
 
-    
     var h_pos = document.getElementById("head").value;
-    // if(h_pos < 0){
-    //   console.log("enter positive values")
-    //   alert("Please Enter positive value only!");
-    // }
+    if(h_pos < 0){
+      console.log("enter positive values")
+      alert("Please Enter positive value only!");
+    }
     // console.log(h_pos);
 
     var ftrack = document.getElementById("track").value;
@@ -58,101 +37,96 @@ const SSTFCalculate = () => {
 
     let length = arry.length;
 
-    SSTF(arry, h_pos, length);
+    SCAN(arry, h_pos, direction);
     e.preventDefault();
   };
 
-  function SSTF(arr, head_pos, size)
-	{
-		if (size <= 0)
-		{
-			return;
-		}
-		var seek_time = 0.0;
-		var minimum = 0.0;
-		//This are storing the information of seek sequence
-		var skeek = Array(size + 1).fill(0);
-		//Create 2d array which is used to store distance and visited status
-		var auxiliary = Array(size).fill(0).map(() => new Array(size).fill(0));
-		// Loop controlling variable
-		var i = 0;
-		var j = 0;
-		var location = 0;
-		for (i = 0; i < size; ++i)
-		{
-			// set initial distance
-			auxiliary[i][0] = 0;
-			// set the visiting element status
-			auxiliary[i][1] = 0;
-		}
-    // Time Complexity = n^2
-		for (i = 0; i < size; i++)
-		{
-      
-			skeek[i] = head_pos;
-      
-			// Find distance using head value
-			for (j = 0; j < size; ++j)
-			{
-				auxiliary[j][0] = arr[j] - head_pos;
-				if (auxiliary[j][0] < 0)
-				{
-					auxiliary[j][0] = -auxiliary[j][0];
-				}
-			}
-			minimum = Number.MAX_VALUE;
-			location = -1;
-			//Find the minimum element location that is not visited
-			for (j = 0; j < size; ++j)
-			{
-				if (auxiliary[j][1] == 0 && auxiliary[j][0] <= minimum)
-				{
-					// Get the new minimum distance element location
-					location = j;
-					minimum = auxiliary[j][0];
-				}
-			}
-			// Update the visited status of new get element
-			auxiliary[location][1] = 1;
-			// Update head data into current track value
-			head_pos = arr[location];
-			// Add current distance into seek
-			seek_time += auxiliary[location][0];
-		}
-		if (head_pos != 0)
-		{
-			// Add last skee info
-			skeek[size] = head_pos;
-		}
-		// process.stdout.write("\n Seek Sequence : ");
-		//Display given queue elements
+  function SCAN(arr, h_pos, direction) {
+    let disk_size = 200;
+    let seek_count = 0;
+    let distance, cur_track;
+    let left = [],
+      right = [];
+    let seek_sequence = [];
 
-    setCount(seek_time)
+    // appending end values
+    // which has to be visited
+    // before reversing the direction
+    if (direction == "left") left.push(0);
+    else if (direction == "right") right.push(disk_size - 1);
 
-    var result = "";
-
-    // Time Complexity = n
-    for (var i = 0; i < size+1; i++) {
-      if(skeek[i] < 0){
-        alert("Enter positive value only!")
-        break;
-      }
-      result += skeek[i] + ", ";
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] < h_pos) left.push(arr[i]);
+      if (arr[i] > h_pos) right.push(arr[i]);
     }
 
+    // sorting left and right vectors
+    left.sort(function (a, b) {
+      return a - b;
+    });
+    right.sort(function (a, b) {
+      return a - b;
+    });
+
+    // run the while loop two times.
+    // one by one scanning right
+    // and left of the head
+    let run = 2;
+    while (run-- > 0) {
+      if (direction == "left") {
+        for (let i = left.length - 1; i >= 0; i--) {
+          cur_track = left[i];
+
+          // appending current track to seek sequence
+          seek_sequence.push(cur_track);
+
+          // calculate absolute distance
+          distance = Math.abs(cur_track - h_pos);
+
+          // increase the total count
+          seek_count += distance;
+
+          // accessed track is now the new head
+          h_pos = cur_track;
+        }
+        direction = "right";
+      } else if (direction == "right") {
+        for (let i = 0; i < right.length; i++) {
+          cur_track = right[i];
+
+          // appending current track to seek sequence
+          seek_sequence.push(cur_track);
+
+          // calculate absolute distance
+          distance = Math.abs(cur_track - h_pos);
+
+          // increase the total count
+          seek_count += distance;
+
+          // accessed track is now new head
+          h_pos = cur_track;
+        }
+        direction = "left";
+      }
+    }
+
+    setCount(seek_count);
+    var result = "";
+
+    for (let i = 0; i < seek_sequence.length; i++) {
+      if (seek_sequence[i] < 0) {
+        alert("Enter positive value only!");
+        break;
+      }
+      result += seek_sequence[i] + ", ";
+    }
     setResult(result);
 
-    console.log(result);
     arry = result.split(", ");
-
     var finArray = [];
-
     finArray = arry.map(Number);
     setFinArray(finArray);
-
-    // let length = result.length;
-		
-	}
+  }
 
   return (
     <>
@@ -161,7 +135,7 @@ const SSTFCalculate = () => {
           <div className="container px-5 py-24 mx-auto flex flex-wrap items-center">
             <div className="lg:w-2/6 flex justify-center md:w-1/2 bg-gray-800 bg-opacity-50 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
               <h2 className="text-white text-lg font-medium title-font mb-5">
-                Shortest Seek Time First
+                SCAN (Elevator) Algorithm
               </h2>
 
               <div className="relative mb-4">
@@ -194,6 +168,31 @@ const SSTFCalculate = () => {
                   className="placeholder-gray-500 w-full bg-gray-600 bg-opacity-20 focus:bg-transparent focus:ring-2 focus:ring-green-900 rounded border border-gray-600 focus:border-green-500 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                 />
               </div>
+              <div className="relative mb-4">
+                <label
+                  htmlFor="direction"
+                  className="leading-7 text-sm text-gray-400"
+                >
+                  Direction
+                </label>
+                <br />
+                <input
+                  type="radio"
+                  value="left"
+                  name="direction"
+                  onChange={(e) => setDirection(e.target.value)}
+                  className="placeholder-gray-500 mr-2 bg-gray-600 bg-opacity-20 focus:bg-transparent focus:ring-2 focus:ring-green-900 rounded border border-gray-600 focus:border-green-500 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                />
+                Left
+                <input
+                  type="radio"
+                  value="right"
+                  name="direction"
+                  onChange={(e) => setDirection(e.target.value)}
+                  className="placeholder-gray-500 ml-6 mr-2 bg-gray-600 bg-opacity-20 focus:bg-transparent focus:ring-2 focus:ring-green-900 rounded border border-gray-600 focus:border-green-500 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                />
+                Right
+              </div>
               <button
                 onClick={alertName}
                 // type="submit"
@@ -217,7 +216,7 @@ const SSTFCalculate = () => {
               </p>
               {/* <div style={{width: 300}}> */}
               {/* <LineChart chartData={userData} /> */}
-              <SSTFChart returnFinArray2={returnFinArray2} />
+              <SCANChart returnFinArray3={returnFinArray3} />
               {/* </div> */}
             </div>
           </div>
@@ -227,4 +226,4 @@ const SSTFCalculate = () => {
   );
 };
 
-export default SSTFCalculate;
+export default SCANCalculate;

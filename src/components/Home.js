@@ -96,9 +96,11 @@ const Home = () => {
                 the other end.
               </p>
               <div className="flex md:mt-4 mt-6">
+                <Link to="/scancalculate">
                 <button className="inline-flex text-white bg-green-500 border-0 py-1 px-4 focus:outline-none hover:bg-green-600 rounded">
                   Calculate
                 </button>
+                </Link>
                 <a className="text-green-400 inline-flex items-center ml-4">
                   Learn More
                   <svg

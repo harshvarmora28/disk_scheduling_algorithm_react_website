@@ -7,6 +7,7 @@ import FCFSLearnMore from "./components/FCFSLearnMore";
 import Footer from "./components/Footer";
 import SSTFCalculate from "./components/SSTFCalculate";
 import SSTFLearnMore from "./components/SSTFLearnMore";
+import SCANCalculate from "./components/SCANCalculate";
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
           <Route exact path="/fcfslearnmore" element={<FCFSLearnMore />} />
           <Route exact path="/sstfcalculate" element={<SSTFCalculate />} />
           <Route exact path="/sstflearnmore" element={<SSTFLearnMore />} />
+          <Route exact path="/scancalculate" element={<SCANCalculate />} />
         </Routes>
       </BrowserRouter>
     
