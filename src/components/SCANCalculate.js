@@ -10,7 +10,7 @@ const SCANCalculate = () => {
   var arry;
   // var arr = [176, 229, 564, 60, 92, 11, 41, 114];
   // console.log(arr)
-  console.log(finArray);
+  // console.log(finArray);
   function returnFinArray3() {
     return finArray;
   }
@@ -23,12 +23,13 @@ const SCANCalculate = () => {
       console.log("enter positive values")
       alert("Please Enter positive value only!");
     }
-    // console.log(h_pos);
+    console.log(h_pos);
 
     var ftrack = document.getElementById("track").value;
     // console.log(ftrack);
 
     arry = ftrack.split(", ");
+    console.log(arry)
 
     // var finArray = [];
 
@@ -45,19 +46,26 @@ const SCANCalculate = () => {
     let disk_size = 200;
     let seek_count = 0;
     let distance, cur_track;
-    let left = [],
-      right = [];
+    let left = [], right = [];
     let seek_sequence = [];
 
     // appending end values
     // which has to be visited
     // before reversing the direction
-    if (direction == "left") left.push(0);
-    else if (direction == "right") right.push(disk_size - 1);
+    // if (direction == "left"){
+    //   left.push(0);
+    // }
+    // else if (direction == "right"){
+    //   right.push(disk_size - 1);
+    // }
 
     for (let i = 0; i < arr.length; i++) {
-      if (arr[i] < h_pos) left.push(arr[i]);
-      if (arr[i] > h_pos) right.push(arr[i]);
+      if (arr[i] < h_pos) {
+        left.push(arr[i]);
+      }
+      if (arr[i] > h_pos) {
+        right.push(arr[i]);
+      }
     }
 
     // sorting left and right vectors
@@ -90,7 +98,8 @@ const SCANCalculate = () => {
           h_pos = cur_track;
         }
         direction = "right";
-      } else if (direction == "right") {
+      } 
+      else if (direction == "right") {
         for (let i = 0; i < right.length; i++) {
           cur_track = right[i];
 
@@ -126,6 +135,7 @@ const SCANCalculate = () => {
     var finArray = [];
     finArray = arry.map(Number);
     setFinArray(finArray);
+
   }
 
   return (
