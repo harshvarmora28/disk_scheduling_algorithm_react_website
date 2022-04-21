@@ -8,6 +8,9 @@ import Footer from "./components/Footer";
 import SSTFCalculate from "./components/SSTFCalculate";
 import SSTFLearnMore from "./components/SSTFLearnMore";
 import SCANCalculate from "./components/SCANCalculate";
+import SCANLearnMore from "./components/SCANLearnMore";
+import CSCANLearnMore from "./components/CSCANLearnMore"
+import CSCANCalculate from "./components/CSCANCalculate";
 
 function App() {
 
@@ -23,6 +26,9 @@ function App() {
           <Route exact path="/sstfcalculate" element={<SSTFCalculate />} />
           <Route exact path="/sstflearnmore" element={<SSTFLearnMore />} />
           <Route exact path="/scancalculate" element={<SCANCalculate />} />
+          <Route exact path="/scanlearnmore" element={<SCANLearnMore />} />
+          <Route exact path="/cscanlearnmore" element={<CSCANLearnMore />} />
+          <Route exact path="/cscancalculate" element={<CSCANCalculate />} />
         </Routes>
       </BrowserRouter>
     

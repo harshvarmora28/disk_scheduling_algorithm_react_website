@@ -101,6 +101,7 @@ const Home = () => {
                   Calculate
                 </button>
                 </Link>
+                <Link to="/scanlearnmore">
                 <a className="text-green-400 inline-flex items-center ml-4">
                   Learn More
                   <svg
@@ -115,6 +116,7 @@ const Home = () => {
                     <path d="M5 12h14M12 5l7 7-7 7"></path>
                   </svg>
                 </a>
+                </Link>
               </div>
             </div>
             <div className="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-800">
@@ -127,9 +129,12 @@ const Home = () => {
                 servicing the requests more uniformly.
               </p>
               <div className="flex md:mt-4 mt-6">
+                <Link to="/cscancalculate">
                 <button className="inline-flex text-white bg-green-500 border-0 py-1 px-4 focus:outline-none hover:bg-green-600 rounded">
                   Calculate
                 </button>
+                </Link>
+                <Link to="/cscanlearnmore">
                 <a className="text-green-400 inline-flex items-center ml-4">
                   Learn More
                   <svg
@@ -144,6 +149,7 @@ const Home = () => {
                     <path d="M5 12h14M12 5l7 7-7 7"></path>
                   </svg>
                 </a>
+                </Link>
               </div>
             </div>
           </div>

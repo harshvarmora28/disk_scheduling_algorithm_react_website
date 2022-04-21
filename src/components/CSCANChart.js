@@ -2,7 +2,7 @@ import React from 'react'
 import { Line } from 'react-chartjs-2'
 
 
-const SCANChart = ({ returnFinArray3 }) => {
+const CSCANChart = ({ returnFinArray3 }) => {
     var arr2 = returnFinArray3();
 
     return (
@@ -42,4 +42,4 @@ const SCANChart = ({ returnFinArray3 }) => {
     )
 }
 
-export default SCANChart
+export default CSCANChart

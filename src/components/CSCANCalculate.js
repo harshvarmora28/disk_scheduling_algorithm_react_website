@@ -1,23 +1,19 @@
 import React, { useState } from "react";
-import SCANChart from "./SCANChart";
+import CSCANChart from "./CSCANChart";
 
-const SCANCalculate = () => {
+
+const CSCANCalculate = () => {
   const [result, setResult] = useState("");
   const [count, setCount] = useState("");
   const [finArray, setFinArray] = useState([]);
   const [direction, setDirection] = useState("");
 
   var arry;
-  // var arr = [176, 229, 564, 60, 92, 11, 41, 114];
-  // console.log(arr)
-  // console.log(finArray);
   function returnFinArray3() {
     return finArray;
   }
 
   const alertName = async (e) => {
-    // console.log(head);
-
     var h_pos = document.getElementById("head").value;
     if(h_pos < 0){
       console.log("enter positive values")
@@ -26,109 +22,141 @@ const SCANCalculate = () => {
     console.log(h_pos);
 
     var ftrack = document.getElementById("track").value;
-    // console.log(ftrack);
-
     arry = ftrack.split(", ");
     console.log(arry)
 
-    // var finArray = [];
-
-    // finArray = arry.map(Number);
-    // setFinArray(finArray);
-
     let length = arry.length;
 
-    SCAN(arry, h_pos, direction);
+    CSCAN(arry, h_pos);
     e.preventDefault();
   };
 
-  function SCAN(arr, h_pos, direction) {
-    // let disk_size = 200;
-    let seek_count = 0;
-    let distance, cur_track;
-    let left = [], right = [];
-    let seek_sequence = [];
-    // appending end values
-    // which has to be visited
-    // before reversing the direction
+	function CSCAN(arr, h_pos)
+	{
+		let seek_count = 0;
+		let distance, cur_track;
+		let left = [], right = [];
+		let seek_sequence = [];
+    let disk_size = 200;
+    let size = arr.length;
 
-    // if (direction == "left"){
-    //   left.push(0);
-    // }
-    // else if (direction == "right"){
-    //   right.push(disk_size - 1);
-    // }
+		// appending end values
+		// which has to be visited
+		// before reversing the direction
+		left.push(0);
+		right.push(disk_size - 1);
 
-    // Time Complexity: o(length)
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i] < h_pos) {
-        left.push(arr[i]);
-      }
-      if (arr[i] > h_pos) {
-        right.push(arr[i]);
-      }
-    }
+		// tracks on the left of the
+		// head will be serviced when
+		// once the head comes back
+		// to the beggining (left end).
+		for (let i = 0; i < size; i++) {
+			if (arr[i] < h_pos)
+				left.push(arr[i]);
+			if (arr[i] > h_pos)
+				right.push(arr[i]);
+		}
 
-    // sorting left and right vectors
-    // Time Complexity: O(n) (average case)
-    // Using insertion sort
-    left.sort(function (a, b) {
-      return a - b;
-    });
-    right.sort(function (a, b) {
-      return a - b;
-    });
+		// sorting left and right vectors
+		left.sort(function(a, b){return a - b});
+		right.sort(function(a, b){return a - b });
 
-    // run the while loop two times.
-    // one by one scanning right
-    // and left of the head
-    let run = 2;
-    while (run-- > 0) {
-      if (direction == "left") {
-        // Time Complexity: O(left.length)
-        for (let i = left.length - 1; i >= 0; i--) {
-          cur_track = left[i];
 
-          // appending current track to seek sequence
-          seek_sequence.push(cur_track);
+		// first service the requests
+		// on the right side of the
+		// head.
+    if(direction == "right"){
+		for (let i = 0; i < right.length; i++)
+		{
+			cur_track = right[i];
+			
+			// appending current track to seek sequence
+			seek_sequence.push(cur_track);
 
-          // calculate absolute distance
-          distance = Math.abs(cur_track - h_pos);
+			// calculate absolute distance
+			distance = Math.abs(cur_track - h_pos);
 
-          // increase the total count
-          seek_count += distance;
+			// increase the total count
+			seek_count += distance;
 
-          // accessed track is now the new head
-          h_pos = cur_track;
-        }
-        direction = "right";
-      } 
-      // Time Complexity: O(right.length)
-      else if (direction == "right") {
-        for (let i = 0; i < right.length; i++) {
-          cur_track = right[i];
+			// accessed track is now new head
+			h_pos = cur_track;
+		}
 
-          // appending current track to seek sequence
-          seek_sequence.push(cur_track);
+		// once reached the right end
+		// jump to the beggining.
+		h_pos = 0;
 
-          // calculate absolute distance
-          distance = Math.abs(cur_track - h_pos);
+		// adding seek count for head returning from 199 to 0
+		seek_count += (disk_size - 1);
 
-          // increase the total count
-          seek_count += distance;
+		// Now service the requests again
+		// which are left.
+		for (let i = 0; i < left.length; i++) {
+			cur_track = left[i];
 
-          // accessed track is now new head
-          h_pos = cur_track;
-        }
-        direction = "left";
-      }
-    }
+			// appending current track to seek sequence
+			seek_sequence.push(cur_track);
 
+			// calculate absolute distance
+			distance = Math.abs(cur_track - h_pos);
+
+			// increase the total count
+			seek_count += distance;
+
+			// accessed track is now the new head
+			h_pos = cur_track;
+		}
+  }
+  else if (direction == "left") {
+    for (let i = left.length - 1; i >= 0; i--)
+		{
+			cur_track = left[i];
+			
+			// appending current track to seek sequence
+			seek_sequence.push(cur_track);
+
+			// calculate absolute distance
+			distance = Math.abs(cur_track - h_pos);
+
+			// increase the total count
+			seek_count += distance;
+
+			// accessed track is now new head
+			h_pos = cur_track;
+		}
+
+		// once reached the right end
+		// jump to the beggining.
+		h_pos = 0;
+
+		// adding seek count for head returning from 199 to 0
+		seek_count += (disk_size - 1);
+
+		// Now service the requests again
+		// which are left.
+		for (let i = right.length - 1; i >= 0; i--) {
+			cur_track = right[i];
+
+			// appending current track to seek sequence
+			seek_sequence.push(cur_track);
+
+			// calculate absolute distance
+			distance = Math.abs(cur_track - h_pos);
+
+			// increase the total count
+			seek_count += distance;
+
+			// accessed track is now the new head
+			h_pos = cur_track;
+		}
+  }
     setCount(seek_count);
     var result = "";
 
     // Time Complexity: O(sequence.length)
     for (let i = 0; i < seek_sequence.length; i++) {
+      console.log(seek_sequence[i])
       if (seek_sequence[i] < 0) {
         alert("Enter positive value only!");
         break;
@@ -136,12 +164,12 @@ const SCANCalculate = () => {
       result += seek_sequence[i] + ", ";
     }
     setResult(result);
+    console.log(result);
 
     arry = result.split(", ");
     var finArray = [];
     finArray = arry.map(Number);
     setFinArray(finArray);
-
   }
 
   return (
@@ -151,7 +179,7 @@ const SCANCalculate = () => {
           <div className="container px-5 py-24 mx-auto flex flex-wrap items-center">
             <div className="lg:w-2/6 flex justify-center md:w-1/2 bg-gray-800 bg-opacity-50 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
               <h2 className="text-white text-lg font-medium title-font mb-5">
-                SCAN (Elevator) Algorithm
+                CSCAN (Elevator) Algorithm
               </h2>
 
               <div className="relative mb-4">
@@ -210,7 +238,7 @@ const SCANCalculate = () => {
                 Right
               </div>
               <button
-                onClick={alertName}
+                onClick={(e) => alertName(e)}
                 // type="submit"
                 className="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded text-lg"
               >
@@ -230,10 +258,7 @@ const SCANCalculate = () => {
               <p className="output_string leading-relaxed mt-4">
                 Seek Time: {count}
               </p>
-              {/* <div style={{width: 300}}> */}
-              {/* <LineChart chartData={userData} /> */}
-              <SCANChart returnFinArray3={returnFinArray3} />
-              {/* </div> */}
+              <CSCANChart returnFinArray3={returnFinArray3} />
             </div>
           </div>
         </section>
@@ -242,4 +267,5 @@ const SCANCalculate = () => {
   );
 };
 
-export default SCANCalculate;
+
+export default CSCANCalculate;
