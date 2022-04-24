@@ -16,27 +16,6 @@ const FCFSCalculate = () => {
       return finArray
     }
 
-  // Graph
-
-    // const [userData, setUserData] = useState({
-    //   labels: UserData.map((data) => data.id),
-    //   datasets: [
-    //     {
-    //       label: "Seek Time",
-    //       data: arr,
-          // backgroundColor: "rgba(40, 196, 93, 0.07)",
-          // borderColor: "white",
-          // borderWidth: 1,
-          // pointBorderWidth: 2.4,
-          // pointBackgroundColor: "tranparent",
-          // pointBorderColor: "#22c55e",
-          // fill: true,
-    //     },
-    //   ],
-    // },
-    // );
-
-
   const alertName = async (e) => {
     // console.log(head);
 
