@@ -11,6 +11,7 @@ import SCANCalculate from "./components/SCANCalculate";
 import SCANLearnMore from "./components/SCANLearnMore";
 import CSCANLearnMore from "./components/CSCANLearnMore"
 import CSCANCalculate from "./components/CSCANCalculate";
+import AboutUs from "./components/AboutUs";
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
           <Route exact path="/scanlearnmore" element={<SCANLearnMore />} />
           <Route exact path="/cscanlearnmore" element={<CSCANLearnMore />} />
           <Route exact path="/cscancalculate" element={<CSCANCalculate />} />
+          <Route exact path="/aboutus" element={<AboutUs />} />
         </Routes>
       </BrowserRouter>
     
